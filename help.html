@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>使い方 — Mon Délicieux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .help-main {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 28px 16px 80px;
+    }
+
+    .help-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: var(--text);
+      opacity: 0.55;
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      margin-bottom: 24px;
+      transition: opacity 0.2s;
+    }
+
+    .help-back:hover { opacity: 1; }
+
+    .help-page-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+
+    .help-page-sub {
+      font-size: 0.72rem;
+      color: var(--text);
+      opacity: 0.45;
+      letter-spacing: 0.12em;
+      margin-bottom: 36px;
+    }
+
+    .help-section {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 20px 22px;
+      margin-bottom: 14px;
+      transition: background 0.2s;
+    }
+
+    .help-section-title {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .help-section-icon {
+      font-size: 1rem;
+    }
+
+    .help-p {
+      font-size: 0.82rem;
+      line-height: 1.85;
+      color: var(--text);
+      opacity: 0.8;
+      margin-bottom: 10px;
+    }
+
+    .help-p:last-child { margin-bottom: 0; }
+
+    .help-steps {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .help-step {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-num);
+      font-size: 0.72rem;
+      margin-top: 1px;
+    }
+
+    .step-text {
+      font-size: 0.82rem;
+      line-height: 1.75;
+      color: var(--text);
+      opacity: 0.8;
+    }
+
+    .help-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+      margin-top: 4px;
+    }
+
+    .help-table th {
+      text-align: left;
+      font-weight: 500;
+      color: var(--accent);
+      padding: 6px 8px;
+      border-bottom: 1px solid var(--border);
+      letter-spacing: 0.06em;
+      font-size: 0.72rem;
+    }
+
+    .help-table td {
+      padding: 8px 8px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      opacity: 0.75;
+      line-height: 1.6;
+      vertical-align: top;
+    }
+
+    .help-table tr:last-child td { border-bottom: none; }
+
+    .help-table td:first-child {
+      font-weight: 500;
+      opacity: 1;
+      white-space: nowrap;
+    }
+
+    .help-badge {
+      display: inline-block;
+      font-size: 0.62rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.06em;
+      font-weight: 500;
+      vertical-align: middle;
+    }
+
+    .help-note {
+      background: rgba(200, 168, 130, 0.1);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 10px 14px;
+      font-size: 0.78rem;
+      line-height: 1.75;
+      color: var(--text);
+      opacity: 0.8;
+      margin-top: 12px;
+    }
+
+    .help-tag {
+      display: inline-block;
+      background: rgba(200, 168, 130, 0.12);
+      border: 1px solid rgba(200, 168, 130, 0.3);
+      color: var(--accent);
+      border-radius: 20px;
+      padding: 2px 8px;
+      font-size: 0.68rem;
+      letter-spacing: 0.04em;
+      margin: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="app-header">
+    <div class="header-logo">
+      <span class="logo-main">Mon Délicieux</span>
+      <span class="logo-sub">ごちそうさまの記録</span>
+    </div>
+    <button class="dark-toggle" id="dark-toggle" aria-label="ダークモード切替">
+      <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      <span class="toggle-icon" id="toggle-icon">🌙</span>
+    </button>
+  </header>
+
+  <main class="help-main">
+
+    <a href="index.html" class="help-back">← トップへ戻る</a>
+
+    <h1 class="help-page-title">使い方ガイド</h1>
+    <p class="help-page-sub">How to use Mon Délicieux</p>
+
+    <!-- 基本の使い方 -->
+    <div class="help-section">
+      <h2 class="help-section-title">
+        <span class="help-section-icon">📝</span> 基本の使い方
+      </h2>
+      <ol class="help-steps">
+        <li class="help-step">
+          <span class="step-num">1</span>
+          <span class="step-text">トップ画面の <strong>「＋ 記録を追加」</strong> をタップします。</span>
+        </li>
+        <li class="help-step">
+          <span class="step-num">2</span>
+          <span class="step-text">店名・日付（必須）、料理名・ジャンル・うまみ度・メモ・写真などを入力します。</span>
+        </li>
+        <li class="help-step">
+          <span class="step-num">3</span>
+          <span class="step-text">テーマ（和/洋/中/Mono/Night）を選んで <strong>「保存する」</strong> をタップします。</span>
+        </li>
+        <li class="help-step">
+          <span class="step-num">4</span>
+          <span class="step-text">記録カードの <strong>「編集」</strong> で内容を変更、<strong>「削除」</strong> で記録を削除できます。</span>
+        </li>
+      </ol>
+    </div>
+
+    <!-- うまみ度 -->
+    <div class="help-section">
+      <h2 class="help-section-title">
+        <span class="help-section-icon">★</span> うまみ度の目安
+      </h2>
+      <table class="help-table">
+        <thead>
+          <tr>
+            <th>評価</th>
+            <th>目安</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>★★★★★</td>
+            <td>また絶対行く。誰かに自慢したいレベル。</td>
+          </tr>
+          <tr>
+            <td>★★★★☆</td>
+            <td>とても美味しかった。機会があればまた行きたい。</td>
+          </tr>
+          <tr>
+            <td>★★★☆☆</td>
+            <td>普通に美味しい。悪くはない。</td>
+          </tr>
+          <tr>
+            <td>★★☆☆☆</td>
+            <td>ちょっと期待外れだった。</td>
+          </tr>
+          <tr>
+            <td>★☆☆☆☆</td>
+            <td>もう行かないかな…という記録として残す。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- テーマ -->
+    <div class="help-section">
+      <h2 class="help-section-title">
+        <span class="help-section-icon">🎨</span> テーマ
+      </h2>
+      <p class="help-p">記録ごとにチラシのデザインカラーを選べます。お店の雰囲気に合わせて選ぶのがおすすめです。</p>
+      <table class="help-table">
+        <thead>
+          <tr><th>テーマ</th><th>イメージ</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="help-badge badge-wa">和</span></td>
+            <td>墨・渋朱。和食・蕎麦・居酒屋・割烹など。</td>
+          </tr>
+          <tr>
+            <td><span class="help-badge badge-yo">洋</span></td>
+            <td>深緑・ゴールド。フレンチ・イタリアンなど。</td>
+          </tr>
+          <tr>
+            <td><span class="help-badge badge-chu">中</span></td>
+            <td>赤黒・朱金。中華・火鍋・点心など。</td>
+          </tr>
+          <tr>
+            <td><span class="help-badge badge-mono">Mono</span></td>
+            <td>白黒。ジャンルを問わない汎用テーマ。</td>
+          </tr>
+          <tr>
+            <td><span class="help-badge badge-night">Night</span></td>
+            <td>深夜・ネオン。バー・夜飲み・深夜食堂など。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- カレンダー -->
+    <div class="help-section">
+      <h2 class="help-section-title">
+        <span class="help-section-icon">📅</span> カレンダー
+      </h2>
+      <p class="help-p">記録のある日にはテーマカラーのドットが表示されます。ドットのある日付をタップすると、その日の記録をプレビューできます。</p>
+      <p class="help-p">画面左上の <strong>‹ ›</strong> ボタンで前月・翌月に移動できます。月を移動すると、右側の <strong>月別ジャンルグラフ</strong> もその月の内容に切り替わります。</p>
+    </div>
+
+    <!-- グラフ・分析 -->
+    <div class="help-section">
+      <h2 class="help-section-title">
+        <span class="help-section-icon">📊</span> グラフ・うまみ分析
+      </h2>
+      <p class="help-p"><strong>月別ジャンルグラフ：</strong>表示中の月に記録したジャンルの割合を円グラフで表示します。</p>
+      <p class="help-p"><strong>うまみ度平均：</strong>店ごとのうまみ度平均を上位5店まで表示します。</p>
+      <p class="help-p"><strong>久しぶり？：</strong>過去の記録にあるジャンルのうち、直近2ヶ月以内に記録がないものをハイライト表示します。食べ歩きの偏りに気づくきっかけになります。</p>
+      <div class="help-note">
+        例：「久しぶり？」に <span class="help-tag">フレンチ</span> が出ていたら、そろそろフレンチを食べに行く合図かもしれません。
+      </div>
+    </div>
+
+    <!-- チラシ出力 -->
+    <div class="help-section">
+      <h2 class="help-section-title">
+        <span class="help-section-icon">🖼️</span> チラシ出力
+      </h2>
+      <ol class="help-steps">
+        <li class="help-step">
+          <span class="step-num">1</span>
+          <span class="step-text">記録カードの <strong>「チラシ」</strong> ボタンをタップします。</span>
+        </li>
+        <li class="help-step">
+          <span class="step-num">2</span>
+          <span class="step-text">プレビューが生成されるまで少し待ちます（写真があると時間がかかる場合があります）。</span>
+        </li>
+        <li class="help-step">
+          <span class="step-num">3</span>
+          <span class="step-text"><strong>「📥 ダウンロード」</strong> をタップして PNG 画像を保存します。</span>
+        </li>
+        <li class="help-step">
+          <span class="step-num">4</span>
+          <span class="step-text">Instagramのストーリーズ・グリッドなどに投稿できます。</span>
+        </li>
+      </ol>
+      <div class="help-note">
+        チラシのデザインカラーは、記録に設定したテーマが反映されます。
+      </div>
+    </div>
+
+    <!-- エクスポート・インポート -->
+    <div class="help-section">
+      <h2 class="help-section-title">
+        <span class="help-section-icon">💾</span> エクスポート・インポート
+      </h2>
+      <p class="help-p">データはブラウザの <strong>localStorage</strong>（端末内）に保存されるため、バックアップには手動エクスポートが必要です。</p>
+      <table class="help-table">
+        <thead>
+          <tr><th>ボタン</th><th>動作</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>↓ エクスポート</td>
+            <td>全記録を JSON ファイルとしてダウンロードします。バックアップとして保存しておきましょう。</td>
+          </tr>
+          <tr>
+            <td>↑ インポート</td>
+            <td>エクスポートした JSON ファイルを読み込みます。既存の記録は消えず、新しい記録が追加されます。</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="help-note">
+        <strong>機種変更・ブラウザ変更のとき：</strong><br>
+        旧端末でエクスポート → ファイルを新端末に転送 → 新端末でインポート、の手順でデータを引き継げます。
+      </div>
+    </div>
+
+    <!-- データについて -->
+    <div class="help-section">
+      <h2 class="help-section-title">
+        <span class="help-section-icon">🔒</span> データについて
+      </h2>
+      <p class="help-p">全てのデータはお使いの端末のブラウザ（localStorage）にのみ保存されます。サーバーへの送信は一切行いません。</p>
+      <p class="help-p">以下の操作を行うとデータが消える場合があります：</p>
+      <ul style="font-size:0.8rem;line-height:2;padding-left:1.2em;color:var(--text);opacity:0.75;margin-bottom:8px">
+        <li>ブラウザのキャッシュ・サイトデータをクリアしたとき</li>
+        <li>プライベートブラウズ（シークレットモード）を閉じたとき</li>
+        <li>端末のストレージ容量が不足したとき</li>
+      </ul>
+      <div class="help-note">
+        定期的に <strong>↓ エクスポート</strong> でバックアップを取ることをおすすめします。
+      </div>
+    </div>
+
+    <!-- ダークモード -->
+    <div class="help-section">
+      <h2 class="help-section-title">
+        <span class="help-section-icon">🌙</span> ダークモード
+      </h2>
+      <p class="help-p">ヘッダー右上のトグルスイッチで切り替えられます。設定はブラウザに記憶されます。</p>
+    </div>
+
+  </main>
+
+  <script>
+    (function () {
+      const THEME_KEY = 'mondelicieux_theme';
+      function applyTheme(mode) {
+        document.documentElement.dataset.theme = mode;
+        document.getElementById('toggle-icon').textContent = mode === 'dark' ? '☀️' : '🌙';
+        localStorage.setItem(THEME_KEY, mode);
+      }
+      applyTheme(localStorage.getItem(THEME_KEY) || 'light');
+      document.getElementById('dark-toggle').addEventListener('click', () => {
+        const current = document.documentElement.dataset.theme || 'light';
+        applyTheme(current === 'light' ? 'dark' : 'light');
+      });
+    })();
+  </script>
+
+</body>
+</html>
