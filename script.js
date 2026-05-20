@@ -29,6 +29,15 @@ let flyerTargetId  = null;
 let calYear        = new Date().getFullYear();
 let calMonth       = new Date().getMonth();
 let genreChart     = null;
+let _deferredInstallPrompt = null;
+
+// beforeinstallprompt は DOMContentLoaded より早く発火する場合があるため最上位で捕捉
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  _deferredInstallPrompt = e;
+  const btn = document.getElementById('btn-pwa-install');
+  if (btn) btn.classList.remove('hidden');
+});
 
 // ── 初期化 ───────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
@@ -45,17 +54,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ── PWAインストール ──────────────────────────────────────────
 const IOS_PWA_KEY = 'mondelicieux_ios_hint';
-let _deferredInstallPrompt = null;
 
 function initPWAInstall() {
   const btn = document.getElementById('btn-pwa-install');
 
-  // Android/Chrome: beforeinstallprompt
-  window.addEventListener('beforeinstallprompt', e => {
-    e.preventDefault();
-    _deferredInstallPrompt = e;
-    btn.classList.remove('hidden');
-  });
+  // 既に捕捉済みなら即ボタン表示
+  if (_deferredInstallPrompt) btn.classList.remove('hidden');
 
   btn.addEventListener('click', () => {
     if (!_deferredInstallPrompt) return;
@@ -68,10 +72,11 @@ function initPWAInstall() {
 
   window.addEventListener('appinstalled', () => btn.classList.add('hidden'));
 
-  // iOS/Safari: フワッとバナー
-  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  // iOS判定：最近のiPadはUAが "Macintosh" になるため maxTouchPoints で補完
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   const isStandalone = window.navigator.standalone === true;
-  const alreadyShown  = localStorage.getItem(IOS_PWA_KEY);
+  const alreadyShown = localStorage.getItem(IOS_PWA_KEY);
 
   if (isIOS && !isStandalone && !alreadyShown) {
     const banner = document.getElementById('ios-pwa-banner');
@@ -80,9 +85,7 @@ function initPWAInstall() {
       requestAnimationFrame(() => banner.classList.add('show'));
     }, 1800);
 
-    // 8秒後に自動フェード
     setTimeout(() => dismissIOSBanner(), 9800);
-
     document.getElementById('ios-pwa-close').addEventListener('click', dismissIOSBanner);
   }
 }
