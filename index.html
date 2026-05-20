@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Mon Délicieux — ごちそうさまの記録</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="app-header">
+    <div class="header-logo">
+      <span class="logo-main">Mon Délicieux</span>
+      <span class="logo-sub">ごちそうさまの記録</span>
+    </div>
+    <button class="dark-toggle" id="dark-toggle" aria-label="ダークモード切替">
+      <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      <span class="toggle-icon" id="toggle-icon">🌙</span>
+    </button>
+  </header>
+
+  <!-- メイン -->
+  <main class="app-main">
+
+    <!-- CTAバー -->
+    <div class="cta-bar">
+      <button class="btn-primary" id="btn-add">＋ 記録を追加</button>
+      <div class="data-actions">
+        <button class="btn-ghost" id="btn-export">↓ エクスポート</button>
+        <button class="btn-ghost" id="btn-import-trigger">↑ インポート</button>
+        <input type="file" id="import-file" accept=".json" hidden>
+      </div>
+    </div>
+
+    <!-- Bentoグリッド -->
+    <div class="bento-grid">
+
+      <!-- カレンダー -->
+      <div class="bento-card calendar-card">
+        <div class="calendar-nav">
+          <button class="cal-btn" id="prev-month">‹</button>
+          <span class="cal-title" id="calendar-title"></span>
+          <button class="cal-btn" id="next-month">›</button>
+        </div>
+        <div class="cal-weekdays">
+          <span>日</span><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span>土</span>
+        </div>
+        <div id="calendar-grid" class="cal-grid"></div>
+        <div id="calendar-preview" class="cal-preview hidden"></div>
+      </div>
+
+      <!-- 月別ジャンルグラフ -->
+      <div class="bento-card chart-card">
+        <h3 class="card-title">月別ジャンル</h3>
+        <div class="chart-wrap">
+          <canvas id="genre-chart"></canvas>
+        </div>
+        <div id="chart-no-data" class="no-data-msg hidden">この月の記録はありません</div>
+      </div>
+
+      <!-- うまみ分析 -->
+      <div class="bento-card analysis-card">
+        <h3 class="card-title">うまみ分析</h3>
+        <div id="avg-scores" class="avg-scores"></div>
+        <div id="missing-genres" class="missing-genres"></div>
+      </div>
+
+    </div>
+
+    <!-- 記録一覧 -->
+    <section class="records-section">
+      <h2 class="section-title">記録</h2>
+      <div id="records-list" class="records-list"></div>
+      <div id="records-empty" class="records-empty hidden">
+        <p>まだ記録がありません。</p>
+        <p>最初の一皿を記録しましょう。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 記録追加・編集モーダル -->
+  <div id="record-modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-overlay" id="modal-overlay"></div>
+    <div class="modal-panel glass">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-title">記録を追加</h2>
+        <button class="modal-close" id="btn-modal-close" aria-label="閉じる">×</button>
+      </div>
+      <form id="record-form" class="record-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="f-shop">店名 <span class="required">*</span></label>
+            <input class="form-input" type="text" id="f-shop" placeholder="例：鮨 みなと" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="f-dish">料理名</label>
+            <input class="form-input" type="text" id="f-dish" placeholder="例：おまかせコース">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="f-date">日付 <span class="required">*</span></label>
+            <input class="form-input" type="date" id="f-date" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="f-genre">ジャンル</label>
+            <select class="form-input" id="f-genre">
+              <option value="和食">和食</option>
+              <option value="洋食">洋食</option>
+              <option value="中華">中華</option>
+              <option value="イタリアン">イタリアン</option>
+              <option value="フレンチ">フレンチ</option>
+              <option value="カフェ">カフェ</option>
+              <option value="バー">バー</option>
+              <option value="ラーメン">ラーメン</option>
+              <option value="焼肉">焼肉</option>
+              <option value="その他">その他</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">うまみ度</label>
+          <div class="star-selector" id="star-selector" role="group" aria-label="うまみ度">
+            <span class="star-btn" data-val="1" role="button" tabindex="0">★</span>
+            <span class="star-btn" data-val="2" role="button" tabindex="0">★</span>
+            <span class="star-btn" data-val="3" role="button" tabindex="0">★</span>
+            <span class="star-btn" data-val="4" role="button" tabindex="0">★</span>
+            <span class="star-btn" data-val="5" role="button" tabindex="0">★</span>
+          </div>
+          <input type="hidden" id="f-rating" value="3">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-memo">メモ</label>
+          <textarea class="form-input form-textarea" id="f-memo" rows="3" placeholder="味の感想、雰囲気、また行きたい度など…"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-mapurl">Google マップ URL</label>
+          <input class="form-input" type="url" id="f-mapurl" placeholder="https://maps.google.com/…">
+        </div>
+        <div class="form-group">
+          <label class="form-label">テーマ</label>
+          <div class="theme-selector" id="theme-selector">
+            <label class="theme-opt" data-t="wa">  <input type="radio" name="rec-theme" value="wa">  和</label>
+            <label class="theme-opt" data-t="yo">  <input type="radio" name="rec-theme" value="yo">  洋</label>
+            <label class="theme-opt" data-t="chu"> <input type="radio" name="rec-theme" value="chu"> 中</label>
+            <label class="theme-opt" data-t="mono"><input type="radio" name="rec-theme" value="mono">Mono</label>
+            <label class="theme-opt" data-t="night"><input type="radio" name="rec-theme" value="night">Night</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">写真</label>
+          <label class="image-upload-label" for="f-image">
+            <span>📷 写真を選択</span>
+            <input type="file" id="f-image" accept="image/*" hidden>
+          </label>
+          <div id="image-preview" class="image-preview-wrap"></div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-ghost" id="btn-cancel">キャンセル</button>
+          <button type="submit" class="btn-primary" id="btn-save">保存する</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- チラシモーダル -->
+  <div id="flyer-modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-overlay" id="flyer-overlay"></div>
+    <div class="modal-panel flyer-panel glass">
+      <div class="modal-header">
+        <h2 class="modal-title">チラシ出力</h2>
+        <button class="modal-close" id="btn-flyer-close" aria-label="閉じる">×</button>
+      </div>
+      <div id="flyer-preview-container" class="flyer-preview-container">
+        <div class="flyer-loading">生成中…</div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-ghost"    id="btn-flyer-close2">閉じる</button>
+        <button class="btn-primary"  id="btn-flyer-dl">📥 ダウンロード</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 削除確認モーダル -->
+  <div id="delete-modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-overlay" id="delete-overlay"></div>
+    <div class="modal-panel delete-panel glass">
+      <h2 class="modal-title">記録を削除しますか？</h2>
+      <p class="delete-msg">この操作は元に戻せません。</p>
+      <div class="form-actions">
+        <button class="btn-ghost"   id="btn-delete-cancel">キャンセル</button>
+        <button class="btn-danger"  id="btn-delete-confirm">削除する</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- チラシレンダリング用隠しDOM -->
+  <div id="flyer-render" class="flyer-render" aria-hidden="true"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
