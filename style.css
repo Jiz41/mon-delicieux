@@ -217,25 +217,22 @@ body {
   margin-right: 4px;
 }
 
-.share-btn {
+.share-icon-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 0.78rem;
-  font-family: var(--font-body);
-  letter-spacing: 0.05em;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
   cursor: pointer;
   text-decoration: none;
   border: none;
   transition: opacity var(--transition), transform var(--transition);
-  font-weight: 500;
+  flex-shrink: 0;
 }
 
-.share-btn:hover  { opacity: 0.82; transform: translateY(-1px); }
-.share-btn:active { transform: translateY(0); }
+.share-icon-btn:hover  { opacity: 0.8; transform: translateY(-2px); }
+.share-icon-btn:active { transform: translateY(0); opacity: 1; }
 
 .share-x {
   background: #000;
@@ -243,7 +240,7 @@ body {
 }
 
 [data-theme="dark"] .share-x {
-  background: #fff;
+  background: #e4e8ec;
   color: #000;
 }
 
