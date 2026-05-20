@@ -38,9 +38,61 @@ document.addEventListener('DOMContentLoaded', () => {
   initCalendar();
   initExportImport();
   initShare();
+  initPWAInstall();
   initSW();
   renderAll();
 });
+
+// ── PWAインストール ──────────────────────────────────────────
+const IOS_PWA_KEY = 'mondelicieux_ios_hint';
+let _deferredInstallPrompt = null;
+
+function initPWAInstall() {
+  const btn = document.getElementById('btn-pwa-install');
+
+  // Android/Chrome: beforeinstallprompt
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    _deferredInstallPrompt = e;
+    btn.classList.remove('hidden');
+  });
+
+  btn.addEventListener('click', () => {
+    if (!_deferredInstallPrompt) return;
+    _deferredInstallPrompt.prompt();
+    _deferredInstallPrompt.userChoice.then(() => {
+      _deferredInstallPrompt = null;
+      btn.classList.add('hidden');
+    });
+  });
+
+  window.addEventListener('appinstalled', () => btn.classList.add('hidden'));
+
+  // iOS/Safari: フワッとバナー
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const isStandalone = window.navigator.standalone === true;
+  const alreadyShown  = localStorage.getItem(IOS_PWA_KEY);
+
+  if (isIOS && !isStandalone && !alreadyShown) {
+    const banner = document.getElementById('ios-pwa-banner');
+    setTimeout(() => {
+      banner.classList.remove('hidden');
+      requestAnimationFrame(() => banner.classList.add('show'));
+    }, 1800);
+
+    // 8秒後に自動フェード
+    setTimeout(() => dismissIOSBanner(), 9800);
+
+    document.getElementById('ios-pwa-close').addEventListener('click', dismissIOSBanner);
+  }
+}
+
+function dismissIOSBanner() {
+  const banner = document.getElementById('ios-pwa-banner');
+  banner.classList.remove('show');
+  setTimeout(() => banner.classList.add('hidden'), 360);
+  localStorage.setItem(IOS_PWA_KEY, '1');
+}
 
 // ── Service Worker ───────────────────────────────────────────
 function initSW() {
