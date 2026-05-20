@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="112" fill="#c8a882"/>
+  <!-- fork -->
+  <g fill="#fff">
+    <rect x="168" y="120" width="16" height="90" rx="8"/>
+    <rect x="196" y="120" width="16" height="90" rx="8"/>
+    <rect x="224" y="120" width="16" height="90" rx="8"/>
+    <path d="M168 205 q24 20 40 0 v175 q0 10-8 10h-24q-8 0-8-10z"/>
+    <!-- knife -->
+    <path d="M300 120 q60 60 20 160 l-20 0 z" opacity="0.95"/>
+    <rect x="300" y="280" width="20" height="112" rx="10"/>
+  </g>
+</svg>

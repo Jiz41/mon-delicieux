@@ -38,8 +38,21 @@ document.addEventListener('DOMContentLoaded', () => {
   initCalendar();
   initExportImport();
   initShare();
+  initSW();
   renderAll();
 });
+
+// ── Service Worker ───────────────────────────────────────────
+function initSW() {
+  if (!('serviceWorker' in navigator)) return;
+  navigator.serviceWorker.register('./sw.js').catch(() => {});
+  navigator.serviceWorker.addEventListener('message', e => {
+    if (e.data?.type === 'NEW_VERSION') {
+      showShareToast('アプリを更新しました ✓');
+      setTimeout(() => location.reload(), 1800);
+    }
+  });
+}
 
 // ── ストレージ ───────────────────────────────────────────────
 function loadRecords() {
