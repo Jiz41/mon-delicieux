@@ -200,6 +200,86 @@ body {
 
 .btn-danger:hover { opacity: 0.85; }
 
+/* === Share Bar === */
+.share-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.share-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--text);
+  opacity: 0.45;
+  margin-right: 4px;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-family: var(--font-body);
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  transition: opacity var(--transition), transform var(--transition);
+  font-weight: 500;
+}
+
+.share-btn:hover  { opacity: 0.82; transform: translateY(-1px); }
+.share-btn:active { transform: translateY(0); }
+
+.share-x {
+  background: #000;
+  color: #fff;
+}
+
+[data-theme="dark"] .share-x {
+  background: #fff;
+  color: #000;
+}
+
+.share-line {
+  background: #06c755;
+  color: #fff;
+}
+
+.share-copy {
+  background: var(--border);
+  color: var(--text);
+}
+
+.share-toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--text);
+  color: var(--bg);
+  padding: 10px 22px;
+  border-radius: 24px;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 9999;
+  white-space: nowrap;
+}
+
+.share-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
 /* === Bento Grid === */
 .bento-grid {
   display: grid;

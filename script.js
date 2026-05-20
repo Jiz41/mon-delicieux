@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initForm();
   initCalendar();
   initExportImport();
+  initShare();
   renderAll();
 });
 
@@ -380,6 +381,29 @@ function renderMissingGenres() {
       ${missing.map(g => `<span class="missing-tag">${escHtml(g)}</span>`).join('')}
     </div>
   `;
+}
+
+// ── シェア ───────────────────────────────────────────────────
+function initShare() {
+  const SHARE_URL  = 'https://jiz41.github.io/mon-delicieux/';
+  const SHARE_TEXT = 'Mon Délicieux — ごちそうさまの記録🍽️';
+
+  document.getElementById('btn-share-x').href =
+    `https://twitter.com/intent/tweet?url=${encodeURIComponent(SHARE_URL)}&text=${encodeURIComponent(SHARE_TEXT)}`;
+
+  document.getElementById('btn-share-line').href =
+    `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(SHARE_URL)}`;
+
+  document.getElementById('btn-share-copy').addEventListener('click', () => {
+    navigator.clipboard.writeText(SHARE_URL).then(() => showShareToast('URLをコピーしました'));
+  });
+}
+
+function showShareToast(msg) {
+  const toast = document.getElementById('share-toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2200);
 }
 
 // ── ダークモード ─────────────────────────────────────────────
