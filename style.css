@@ -1027,6 +1027,14 @@ select.form-input {
   max-width: 100%;
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow);
+  animation: flyerPop 0.55s cubic-bezier(0.22, 1.4, 0.36, 1);
+}
+
+@keyframes flyerPop {
+  0%   { transform: scale(0.6); opacity: 0; }
+  60%  { transform: scale(1.05); opacity: 1; }
+  80%  { transform: scale(0.98); }
+  100% { transform: scale(1); }
 }
 
 .flyer-loading {

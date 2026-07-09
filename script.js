@@ -334,12 +334,18 @@ function renderCalendar() {
 function showCalPreview(recs, preview) {
   preview.classList.remove('hidden');
   preview.innerHTML = recs.map(r => `
-    <div style="display:flex;justify-content:space-between;align-items:baseline;padding:3px 0;border-bottom:1px solid var(--border)">
-      <span style="font-size:0.78rem;font-weight:700">${escHtml(r.shop || '')}</span>
-      <span style="font-size:0.7rem;color:var(--accent)">${buildStarsHtml(r.rating || 0, 'var(--accent)', 'var(--border)')}</span>
+    <div class="cal-preview-item" data-id="${r.id}" style="cursor:pointer;padding:3px 0;border-bottom:1px solid var(--border)">
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <span style="font-size:0.78rem;font-weight:700">${escHtml(r.shop || '')}</span>
+        <span style="font-size:0.7rem;color:var(--accent)">${buildStarsHtml(r.rating || 0, 'var(--accent)', 'var(--border)')}</span>
+      </div>
+      ${r.dish ? `<div style="font-size:0.68rem;opacity:.55;padding:1px 0">${escHtml(r.dish)}</div>` : ''}
     </div>
-    ${r.dish ? `<div style="font-size:0.68rem;opacity:.55;padding:1px 0">${escHtml(r.dish)}</div>` : ''}
   `).join('');
+
+  preview.querySelectorAll('.cal-preview-item').forEach(el => {
+    el.addEventListener('click', () => openFlyerModal(el.dataset.id));
+  });
 }
 
 // ── Chart.js グラフ ──────────────────────────────────────────
