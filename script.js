@@ -696,6 +696,9 @@ function openFlyerModal(id) {
     `<span style="color:${i < (rec.rating || 0) ? t.accent : t.dim}">★</span>`
   ).join('');
 
+  const accentSoft   = hexToRgba(t.accent, 0.10);
+  const accentBorder = hexToRgba(t.accent, 0.33);
+
   const renderEl = document.getElementById('flyer-render');
   renderEl.innerHTML = `
     <div style="
@@ -721,7 +724,7 @@ function openFlyerModal(id) {
           <img src="${rec.image}" style="width:100%;height:100%;object-fit:cover" crossorigin="anonymous" alt="">
         </div>
       ` : `
-        <div style="width:100%;height:140px;border-radius:14px;background:${t.accent}1a;display:flex;align-items:center;justify-content:center;font-size:56px;margin-bottom:32px;flex-shrink:0">🍽️</div>
+        <div style="width:100%;height:140px;border-radius:14px;background:${accentSoft};display:flex;align-items:center;justify-content:center;font-size:56px;margin-bottom:32px;flex-shrink:0">🍽️</div>
       `}
 
       <div style="flex:1;display:flex;flex-direction:column">
@@ -748,7 +751,7 @@ function openFlyerModal(id) {
           <div style="font-family:'Cormorant Garamond',serif;font-size:16px;opacity:0.48;letter-spacing:0.1em">
             ${formatDate(rec.date)}
           </div>
-          <div style="font-size:11px;padding:4px 12px;border:1px solid ${t.accent}55;border-radius:20px;color:${t.accent};letter-spacing:0.1em">
+          <div style="font-size:11px;padding:4px 12px;border:1px solid ${accentBorder};border-radius:20px;color:${t.accent};letter-spacing:0.1em">
             ${escHtml(rec.genre || '')}
           </div>
         </div>
