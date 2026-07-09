@@ -9,11 +9,16 @@ const STORAGE_KEY = 'mondelicieux_records';
 const THEME_KEY   = 'mondelicieux_theme';
 
 const THEME_COLORS = {
-  wa:    { bg: '#1a1208', accent: '#c0392b', text: '#f5ede0', label: '和' },
-  yo:    { bg: '#0d1a0f', accent: '#b8962e', text: '#e8f0e0', label: '洋' },
-  chu:   { bg: '#1a0808', accent: '#e85d04', text: '#fdebd0', label: '中' },
-  mono:  { bg: '#111111', accent: '#f5f5f5', text: '#ffffff', label: 'Mono' },
-  night: { bg: '#060d1a', accent: '#4fc3f7', text: '#e0f0ff', label: 'Night' },
+  wa:    { bg: '#1a1208', accent: '#c0392b', text: '#f5ede0', dim: 'rgba(255,255,255,0.18)', label: '和' },
+  yo:    { bg: '#0d1a0f', accent: '#b8962e', text: '#e8f0e0', dim: 'rgba(255,255,255,0.18)', label: '洋' },
+  chu:   { bg: '#1a0808', accent: '#e85d04', text: '#fdebd0', dim: 'rgba(255,255,255,0.18)', label: '中' },
+  mono:  { bg: '#111111', accent: '#f5f5f5', text: '#ffffff', dim: 'rgba(255,255,255,0.18)', label: 'Mono' },
+  night: { bg: '#060d1a', accent: '#4fc3f7', text: '#e0f0ff', dim: 'rgba(255,255,255,0.18)', label: 'Night' },
+  'wa-pastel':    { bg: '#fbeee0', accent: '#c0392b', text: '#3a2418', dim: 'rgba(0,0,0,0.16)', label: '和(P)' },
+  'yo-pastel':    { bg: '#eef5e6', accent: '#8a7a1e', text: '#22301a', dim: 'rgba(0,0,0,0.16)', label: '洋(P)' },
+  'chu-pastel':   { bg: '#fdeee0', accent: '#c24e00', text: '#3a1e0a', dim: 'rgba(0,0,0,0.16)', label: '中(P)' },
+  'mono-pastel':  { bg: '#f0f0f0', accent: '#555555', text: '#1a1a1a', dim: 'rgba(0,0,0,0.16)', label: 'Mono(P)' },
+  'night-pastel': { bg: '#e6eefb', accent: '#2f6fa8', text: '#14223a', dim: 'rgba(0,0,0,0.16)', label: 'Night(P)' },
 };
 
 const GENRE_COLORS = [
@@ -688,7 +693,7 @@ function openFlyerModal(id) {
 
   const t = THEME_COLORS[rec.theme] || THEME_COLORS.mono;
   const starsHtml = Array.from({ length: 5 }, (_, i) =>
-    `<span style="color:${i < (rec.rating || 0) ? t.accent : 'rgba(255,255,255,0.18)'}">★</span>`
+    `<span style="color:${i < (rec.rating || 0) ? t.accent : t.dim}">★</span>`
   ).join('');
 
   const renderEl = document.getElementById('flyer-render');

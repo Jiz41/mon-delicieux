@@ -709,6 +709,11 @@ body {
 .badge-chu   { background: rgba(232, 93, 4, 0.12);  color: #e85d04; border: 1px solid rgba(232, 93, 4, 0.28); }
 .badge-mono  { background: rgba(136, 136, 136, 0.12); color: #888; border: 1px solid rgba(136, 136, 136, 0.28); }
 .badge-night { background: rgba(79, 195, 247, 0.12); color: #4fc3f7; border: 1px solid rgba(79, 195, 247, 0.28); }
+.badge-wa-pastel    { background: rgba(192, 57, 43, 0.10);  color: #c0392b; border: 1px solid rgba(192, 57, 43, 0.24); }
+.badge-yo-pastel    { background: rgba(138, 122, 30, 0.10); color: #8a7a1e; border: 1px solid rgba(138, 122, 30, 0.24); }
+.badge-chu-pastel   { background: rgba(194, 78, 0, 0.10);   color: #c24e00; border: 1px solid rgba(194, 78, 0, 0.24); }
+.badge-mono-pastel  { background: rgba(85, 85, 85, 0.10);   color: #555;    border: 1px solid rgba(85, 85, 85, 0.24); }
+.badge-night-pastel { background: rgba(47, 111, 168, 0.10); color: #2f6fa8; border: 1px solid rgba(47, 111, 168, 0.24); }
 
 .record-memo {
   font-size: 0.7rem;
@@ -917,6 +922,10 @@ select.form-input {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
+}
+
+.theme-selector + .theme-selector {
+  margin-top: 6px;
 }
 
 .theme-opt {
