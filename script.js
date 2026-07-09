@@ -223,10 +223,20 @@ function formatDate(dateStr) {
   return `${y}.${m}.${d}`;
 }
 
-function truncateForFlyer(str, max = 100) {
+const FLYER_MEMO_MAX = 100;
+const FLYER_MEMO_WARN = 90;
+
+function truncateForFlyer(str, max = FLYER_MEMO_MAX) {
   if (!str) return '';
   const arr = Array.from(str);
   return arr.length > max ? arr.slice(0, max).join('') + '…' : str;
+}
+
+function updateMemoCounter() {
+  const len = Array.from(document.getElementById('f-memo').value).length;
+  const counter = document.getElementById('memo-counter');
+  counter.textContent = `${len}/${FLYER_MEMO_MAX}`;
+  counter.classList.toggle('is-over', len >= FLYER_MEMO_WARN);
 }
 
 function hexToRgba(hex, alpha) {
@@ -537,6 +547,8 @@ function initForm() {
   });
 
   // 画像プレビュー
+  document.getElementById('f-memo').addEventListener('input', updateMemoCounter);
+
   document.getElementById('f-image').addEventListener('change', e => {
     const file = e.target.files[0];
     if (!file) return;
@@ -596,6 +608,7 @@ function openAddModal() {
   document.getElementById('f-date').value = new Date().toISOString().slice(0, 10);
   setRating(3);
   selectThemeOpt('wa');
+  updateMemoCounter();
   document.getElementById('record-modal').classList.remove('hidden');
   setTimeout(() => document.getElementById('f-shop').focus(), 100);
 }
@@ -614,6 +627,7 @@ function openEditModal(id) {
   document.getElementById('f-mapurl').value = rec.mapurl || '';
   setRating(rec.rating || 3);
   selectThemeOpt(rec.theme || 'wa');
+  updateMemoCounter();
 
   const radio = document.querySelector(`input[name="rec-theme"][value="${rec.theme || 'wa'}"]`);
   if (radio) radio.checked = true;
