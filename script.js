@@ -223,8 +223,8 @@ function formatDate(dateStr) {
   return `${y}.${m}.${d}`;
 }
 
-const FLYER_MEMO_MAX = 100;
-const FLYER_MEMO_WARN = 90;
+const FLYER_MEMO_MAX = 220;
+const FLYER_MEMO_WARN = 200;
 
 function truncateForFlyer(str, max = FLYER_MEMO_MAX) {
   if (!str) return '';
@@ -770,7 +770,7 @@ function openFlyerModal(id) {
         <div style="width:44px;height:2px;background:${t.accent};margin-bottom:18px;border-radius:1px"></div>
 
         ${rec.memo ? `
-          <div style="font-size:13px;line-height:1.85;opacity:0.72;margin-bottom:18px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical">
+          <div style="font-size:13px;line-height:1.85;opacity:0.72;margin-bottom:18px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:9;-webkit-box-orient:vertical">
             ${escHtml(truncateForFlyer(rec.memo))}
           </div>
         ` : ''}
