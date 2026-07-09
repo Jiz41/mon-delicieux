@@ -223,6 +223,12 @@ function formatDate(dateStr) {
   return `${y}.${m}.${d}`;
 }
 
+function truncateForFlyer(str, max = 100) {
+  if (!str) return '';
+  const arr = Array.from(str);
+  return arr.length > max ? arr.slice(0, max).join('') + '…' : str;
+}
+
 function hexToRgba(hex, alpha) {
   const h = hex.replace('#', '');
   const r = parseInt(h.substring(0, 2), 16);
@@ -751,7 +757,7 @@ function openFlyerModal(id) {
 
         ${rec.memo ? `
           <div style="font-size:13px;line-height:1.85;opacity:0.72;margin-bottom:18px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical">
-            ${escHtml(rec.memo)}
+            ${escHtml(truncateForFlyer(rec.memo))}
           </div>
         ` : ''}
 
