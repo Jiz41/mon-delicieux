@@ -79,6 +79,17 @@ body {
   font-style: italic;
 }
 
+.logo-version {
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0.03em;
+  opacity: 0.4;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+
 .logo-sub {
   font-size: 0.62rem;
   letter-spacing: 0.14em;
