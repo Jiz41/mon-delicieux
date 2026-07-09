@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mondelicieux-20260709-8';
+const CACHE_NAME = 'mondelicieux-20260709-9';
 const ASSETS = [
   './',
   './index.html',
